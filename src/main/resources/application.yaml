@@ -6,15 +6,31 @@ spring:
   cloud:
     config:
       uri: http://localhost:8071
-      enabled: false
+      enabled: true
+    gateway:
+      discovery:
+        locator: # 자동화 맵핑을 제거하고 싶으면 locator 지운다
+          enabled: true
+          lower-case-service-id: true
+#      routes:  path 경로 변경
+#      - id: cafe-service
+#        uri: lb://localhost:8088
+#
+#        predicates:
+#          - Path=/test/**
+#
 
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8070/eureka
-server:
-  port: 8090
+
+
+management:
+  endpoint:
+    gateway:
+      access: read_only
+  server:
+    port: 8072
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+
